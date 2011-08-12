@@ -7,7 +7,7 @@ class Calcp
     nonassoc UMINUS
     left '*' '/' '%'
     left '+' '-'
-    left '='
+    right '='
   preclow
 
 rule
@@ -26,12 +26,50 @@ rule
      | VAR { result=@var[val[0]]}
 end
 
+
 ---- header
 # $Id: calc.y,v 1.4 2005/11/20 13:29:32 aamine Exp $
+
+class AddNode
+  def initialize(left,right)
+    @left = left
+    @right = right
+  end
+end
+
+class MinusNode
+  def initialize(left,right)
+    @left = left
+    @right = right
+  end
+end
+
+class MultipleNode
+  def initialize(left,right)
+    @left = left
+    @right = right
+  end
+end
+
+class DevNode
+  def initialize(left,right)
+    @left = left
+    @right = right
+  end
+end
+
+class ModNode
+  def initialize(left,right)
+    @left = left
+    @right = right
+  end
+end
+
 ---- inner
 
   def initialize()
     @var = {}
+    @nodes = []
   end
 
   def parse(str)
