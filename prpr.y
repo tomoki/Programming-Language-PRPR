@@ -311,22 +311,14 @@ end
 
 if ARGV.length == 0
     parser = Calcp.new
-    puts
-    puts 'type "Q" to quit.'
-    puts
     var = {}
-    while true
-      puts
-      print '? '
-      str = gets.chop!
-      break if /q/i =~ str
-      begin
-        parsed = parser.parse(str)
-        parsed.eval(var)
-      rescue ParseError
-        puts $!
-      end
-    end
+    str = ARGF.read
+  begin
+    parsed = parser.parse(str)
+    parsed.eval(var)
+  rescue ParseError
+    puts e
+  end
 else
     parser = Calcp.new
     var = {}

@@ -1,12 +1,13 @@
 #!/usr/bin/env python
 #coding:utf-8
 
+import sys
 els = "else"
 
 # indent is 4space
 
 def main():
-    f = open("fizzbazz.bas")
+    f = open(sys.argv[1])
     string = f.read()
     print gen_output(string)
 
