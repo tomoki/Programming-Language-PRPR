@@ -56,7 +56,8 @@ def gen_output(string):
                 offsideline.pop(-1)
 
         if offsideline[-1] == indent_levels[i]:
-            output = output + ";"
+            if not clean_lines[i].strip()[0:len(els)] == els:
+                output = output + ";"
 
         if offsideline[-1] < indent_levels[i]:
             offsideline.append(indent_levels[i])
