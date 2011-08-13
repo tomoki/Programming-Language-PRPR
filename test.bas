@@ -2,13 +2,13 @@
     for i=0 to i is 100 do
     {
         if i % 15 is 0 then
-            print 100000
+            print "FizzBuzz"
         else
             if i % 5 is 0 then
-                print 10000
+                print "Buzz"
             else
                 if i % 3  is 0 then
-                    print 1000
+                    print "Fizz"
                 else
                     print i
                     ;

@@ -38,6 +38,7 @@ rule
      | VAR '=' exp { result = EqualNode.new(val[0],val[2]) }
      | NUMBER {result = NumberNode.new(val[0]) }
      | VAR { result = VarNode.new(val[0])}
+     | STRING { result = StringNode.new(val[0]) }
 
   explist: {result = []}
          | exp {result=[val[0]]}
@@ -62,6 +63,15 @@ class VarNode
 end
 
 class NumberNode
+  def initialize(value)
+    @value = value
+  end
+  def eval(var_table)
+    return @value
+  end
+end
+
+class StringNode
   def initialize(value)
     @value = value
   end
@@ -283,6 +293,8 @@ end
         @q.push [:TO,nil]
       when /\Ado/
         @q.push [:DO,nil]
+      when /\A"(.*?)"/
+        @q.push [:STRING,$1]
       when /\A\w+/
         @q.push [:VAR,$&.to_s]
       when /\A.|\n/o
