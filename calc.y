@@ -3,17 +3,22 @@
 # Very simple calculater.
 
 class Calcp
+  expect 15
   prechigh
     nonassoc UMINUS
     left '*' '/' '%'
     left '+' '-'
     nonassoc IS
+    nonassoc ISNOT
     right '='
+    nonassoc PRINT
+    left ';'
+    nonassoc IF
   preclow
 
 rule
   target: exp
-        | /* none */ { result = 0 }
+        | /* none */ { result = NumberNode.new(0) }
 
   exp: exp '+' exp { result = AddNode.new(val[0],val[2]) }
      | exp '-' exp { result = MinusNode.new(val[0],val[2]) }
@@ -21,11 +26,26 @@ rule
      | exp '/' exp { result = DevNode.new(val[0],val[2]) }
      | exp '%' exp { result = ModNode.new(val[0],val[2]) }
      | exp IS exp { result = IsNode.new(val[0],val[2]) }
+     | exp ISNOT exp { result = IsNotNode.new(val[0],val[2])}
+     | PRINT exp { result = PrintNode.new(val[1])}
+     | IF exp THEN exp { result = IfNode.new(val[1],val[3])}
+     | IF exp THEN exp ELSE exp { result = IfElseNode.new(val[1],val[3],val[5])}
+     | FOR exp TO exp DO exp { result = ForNode.new(val[1],val[3],val[5])}
+     #| IF exp THEN exp else_or_empty {}
      | '(' exp ')' { result = val[1] }
+     | '{' explist '}' {result = BlockNode.new(val[1])}
      | '-' NUMBER  =UMINUS { result = UMinusNode.new(val[1]) }
      | VAR '=' exp { result = EqualNode.new(val[0],val[2]) }
      | NUMBER {result = NumberNode.new(val[0]) }
      | VAR { result = VarNode.new(val[0])}
+
+  explist: {result = []}
+         | exp {result=[val[0]]}
+         | explist ';' exp {result=val[0] << val[2]}
+
+  #else_or_empty: {}
+               #| ELSE exp {
+
 end
 
 
@@ -156,10 +176,82 @@ class IsNode
     @right = right
   end
   def eval(var_table)
-    return BoolNode.new(@left.eval(var_table)==@right.eval(var_table))
+    return BoolNode.new(@left.eval(var_table)==@right.eval(var_table)).eval(var_table)
   end
 end
 
+class IsNotNode
+  def initialize(left,right)
+    @left = left
+    @right = right
+  end
+  def eval(var_table)
+    return BoolNode.new(@left.eval(var_table)!=@right.eval(var_table)).eval(var_table)
+  end
+end
+
+class IfNode
+  def initialize(boolexp,exp)
+    @boolexp = boolexp
+    @exp = exp
+  end
+  def eval(var_table)
+    if @boolexp.eval(var_table)
+      return @exp.eval(var_table)
+    end
+  end
+end
+
+class ForNode
+  def initialize(initexp,boolexp,doexp)
+    @initexp = initexp
+    @boolexp = boolexp
+    @doexp = doexp
+  end
+  def eval(var_table)
+    @initexp.eval(var_table)
+    while(not @boolexp.eval(var_table))
+      @doexp.eval(var_table)
+    end
+  end
+end
+
+class IfElseNode
+  def initialize(boolexp,trueexp,falseexp)
+    @boolexp = boolexp
+    @trueexp = trueexp
+    @falseexp = falseexp
+  end
+  def eval(var_table)
+    if @boolexp.eval(var_table)
+      return @trueexp.eval(var_table)
+    else
+      return @falseexp.eval(var_table)
+    end
+  end
+end
+
+class BlockNode
+  def initialize(nodelist)
+    @nodelist = nodelist
+  end
+  def eval(var_table)
+    answer = 0
+    @nodelist.each do |node|
+      answer = node.eval(var_table)
+    end
+    return answer
+  end
+end
+
+class PrintNode
+  def initialize(value)
+    @value = value
+  end
+  def eval(var_table)
+    puts @value.eval(var_table)
+  end
+end
 ---- inner
 
   def initialize()
@@ -173,8 +265,24 @@ end
       when /\A\s+/
       when /\A\d+\.?\d*/
         @q.push [:NUMBER, $&.to_f]
+      when /\Aif/
+        @q.push [:IF,nil]
+      when /\Aisnot/
+        @q.push [:ISNOT,nil]
       when /\Ais/
         @q.push [:IS,nil]
+      when /\Athen/
+        @q.push [:THEN,nil]
+      when /\Aelse/
+        @q.push [:ELSE,nil]
+      when /\Aprint/
+        @q.push [:PRINT,nil]
+      when /\Afor/
+        @q.push [:FOR,nil]
+      when /\Ato/
+        @q.push [:TO,nil]
+      when /\Ado/
+        @q.push [:DO,nil]
       when /\A\w+/
         @q.push [:VAR,$&.to_s]
       when /\A.|\n/o
@@ -193,20 +301,34 @@ end
 
 ---- footer
 
-parser = Calcp.new
-puts
-puts 'type "Q" to quit.'
-puts
-var = {}
-while true
-  puts
-  print '? '
-  str = gets.chop!
-  break if /q/i =~ str
-  begin
-    parsed = parser.parse(str)
-    puts parsed.eval(var)
-  rescue ParseError
-    puts $!
-  end
+if ARGV.length == 0
+    parser = Calcp.new
+    puts
+    puts 'type "Q" to quit.'
+    puts
+    var = {}
+    while true
+      puts
+      print '? '
+      str = gets.chop!
+      break if /q/i =~ str
+      begin
+        parsed = parser.parse(str)
+        parsed.eval(var)
+      rescue ParseError
+        puts $!
+      end
+    end
+else
+    parser = Calcp.new
+    var = {}
+    f = open(ARGV[0])
+    begin
+      str = f.read
+      parsed = parser.parse(str)
+      parsed.eval(var)
+    rescue ParseError => e
+      puts e
+    end
+    f.close
 end
