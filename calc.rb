@@ -221,7 +221,7 @@ end
 
 class Calcp < Racc::Parser
 
-module_eval <<'..end calc.y modeval..ida3b080719f', 'calc.y', 266
+module_eval <<'..end calc.y modeval..idcd8ab990c2', 'calc.y', 262
 
   def initialize()
     @nodes = []
@@ -270,7 +270,7 @@ module_eval <<'..end calc.y modeval..ida3b080719f', 'calc.y', 266
     @q.shift
   end
 
-..end calc.y modeval..ida3b080719f
+..end calc.y modeval..idcd8ab990c2
 
 ##### racc 1.4.5 generates ###
 
@@ -596,70 +596,70 @@ module_eval <<'.,.,', 'calc.y', 32
   end
 .,.,
 
-module_eval <<'.,.,', 'calc.y', 34
+module_eval <<'.,.,', 'calc.y', 33
   def _reduce_14( val, _values, result )
  result = val[1]
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'calc.y', 35
+module_eval <<'.,.,', 'calc.y', 34
   def _reduce_15( val, _values, result )
 result = BlockNode.new(val[1])
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'calc.y', 36
+module_eval <<'.,.,', 'calc.y', 35
   def _reduce_16( val, _values, result )
  result = UMinusNode.new(val[1])
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'calc.y', 37
+module_eval <<'.,.,', 'calc.y', 36
   def _reduce_17( val, _values, result )
  result = EqualNode.new(val[0],val[2])
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'calc.y', 38
+module_eval <<'.,.,', 'calc.y', 37
   def _reduce_18( val, _values, result )
 result = NumberNode.new(val[0])
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'calc.y', 39
+module_eval <<'.,.,', 'calc.y', 38
   def _reduce_19( val, _values, result )
  result = VarNode.new(val[0])
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'calc.y', 40
+module_eval <<'.,.,', 'calc.y', 39
   def _reduce_20( val, _values, result )
  result = StringNode.new(val[0])
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'calc.y', 42
+module_eval <<'.,.,', 'calc.y', 41
   def _reduce_21( val, _values, result )
 result = []
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'calc.y', 43
+module_eval <<'.,.,', 'calc.y', 42
   def _reduce_22( val, _values, result )
 result=[val[0]]
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'calc.y', 44
+module_eval <<'.,.,', 'calc.y', 43
   def _reduce_23( val, _values, result )
 result=val[0] << val[2]
    result

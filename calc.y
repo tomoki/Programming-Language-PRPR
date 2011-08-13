@@ -31,7 +31,6 @@ rule
      | IF exp THEN exp { result = IfNode.new(val[1],val[3])}
      | IF exp THEN exp ELSE exp { result = IfElseNode.new(val[1],val[3],val[5])}
      | FOR exp TO exp DO exp { result = ForNode.new(val[1],val[3],val[5])}
-     #| IF exp THEN exp else_or_empty {}
      | '(' exp ')' { result = val[1] }
      | '{' explist '}' {result = BlockNode.new(val[1])}
      | '-' NUMBER  =UMINUS { result = UMinusNode.new(val[1]) }
@@ -43,9 +42,6 @@ rule
   explist: {result = []}
          | exp {result=[val[0]]}
          | explist ';' exp {result=val[0] << val[2]}
-
-  #else_or_empty: {}
-               #| ELSE exp {
 
 end
 
