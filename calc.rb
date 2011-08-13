@@ -221,7 +221,7 @@ end
 
 class Calcp < Racc::Parser
 
-module_eval <<'..end calc.y modeval..idcd8ab990c2', 'calc.y', 262
+module_eval <<'..end calc.y modeval..idc6f4657cb9', 'calc.y', 262
 
   def initialize()
     @nodes = []
@@ -270,7 +270,7 @@ module_eval <<'..end calc.y modeval..idcd8ab990c2', 'calc.y', 262
     @q.shift
   end
 
-..end calc.y modeval..idcd8ab990c2
+..end calc.y modeval..idc6f4657cb9
 
 ##### racc 1.4.5 generates ###
 
@@ -702,5 +702,5 @@ else
     rescue ParseError => e
       puts e
     end
-    f.close
+    f.close()
 end

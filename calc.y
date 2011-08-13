@@ -338,5 +338,5 @@ else
     rescue ParseError => e
       puts e
     end
-    f.close
+    f.close()
 end
