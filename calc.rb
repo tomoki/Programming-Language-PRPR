@@ -9,12 +9,141 @@ require 'racc/parser'
 
 # $Id: calc.y,v 1.4 2005/11/20 13:29:32 aamine Exp $
 
+class VarNode
+  def initialize(name)
+    @name = name
+  end
+  def eval(var_table)
+    return var_table[@name]
+  end
+end
+
+class NumberNode
+  def initialize(value)
+    @value = value
+  end
+  def eval(var_table)
+    return @value
+  end
+end
+
+class AddNode
+  def initialize(left,right)
+    @left = left
+    @right = right
+  end
+  def to_s()
+    return "|Add node|\n| #{@left}  #{@right}"
+  end
+  def eval(var_table)
+    return @left.eval(var_table) + @right.eval(var_table)
+  end
+end
+
+class MinusNode
+  def initialize(left,right)
+    @left = left
+    @right = right
+  end
+  def to_s()
+    return "|Minus node|\n|#{"-"*(@right.to_s.length+2)}|\n#{@left}  #{@right}"
+  end
+  def eval(var_table)
+    return @left.eval(var_table) - @right.eval(var_table)
+  end
+end
+
+class MultipleNode
+  def initialize(left,right)
+    @left = left
+    @right = right
+  end
+  def to_s()
+    return "|Multiple node|\n|#{"-"*(@right.to_s.length+2)}|\n#{@left}  #{@right}"
+  end
+  def eval(var_table)
+    return @left.eval(var_table) * @right.eval(var_table)
+  end
+end
+
+class DevNode
+  def initialize(left,right)
+    @left = left
+    @right = right
+  end
+  def to_s()
+    return "|Dev node|\n|#{"-"*(@right.to_s.length+2)}|\n#{@left}  #{@right}"
+  end
+  def eval(var_table)
+    return @left.eval(var_table) / @right.eval(var_table)
+  end
+end
+
+class ModNode
+  def initialize(left,right)
+    @left = left
+    @right = right
+  end
+  def to_s()
+    return "|Mod node|\n|#{"-"*(@right.to_s.length+2)}|\n#{@left}  #{@right}"
+  end
+  def eval(var_table)
+    @left.eval(var_table)% @right.eval(var_table)
+  end
+end
+
+class UMinusNode
+  def initialize(num)
+    @num = num
+  end
+  def to_s()
+    return "|UMinus node|\n|#{@num}"
+  end
+  def eval(var_table)
+    return -1 * @num.eval(var_table)
+  end
+end
+
+class EqualNode
+  def initialize(left,right)
+    @left = left
+    @right = right
+  end
+  def to_s()
+    return "Mod node\n|#{"-"*(@right.to_s.length+2)}|\n#{@left}  #{@right}"
+  end
+  def eval(var_table)
+    var_table[@left] = @right.eval(var_table)
+  end
+end
+
+class BoolNode
+  def initialize(bool)
+    @bool = bool
+  end
+  def eval(var_table)
+    return @bool
+  end
+end
+
+
+class IsNode
+  def initialize(left,right)
+    @left = left
+    @right = right
+  end
+  def eval(var_table)
+    return BoolNode.new(@left.eval(var_table)==@right.eval(var_table))
+  end
+end
+
+
 class Calcp < Racc::Parser
 
-module_eval <<'..end calc.y modeval..iddcd512523d', 'calc.y', 32
+module_eval <<'..end calc.y modeval..ideb5736dc8f', 'calc.y', 164
 
   def initialize()
-    @var = {}
+    @nodes = []
   end
 
   def parse(str)
@@ -24,6 +153,8 @@ module_eval <<'..end calc.y modeval..iddcd512523d', 'calc.y', 32
       when /\A\s+/
       when /\A\d+\.?\d*/
         @q.push [:NUMBER, $&.to_f]
+      when /\Ais/
+        @q.push [:IS,nil]
       when /\A\w+/
         @q.push [:VAR,$&.to_s]
       when /\A.|\n/o
@@ -40,64 +171,67 @@ module_eval <<'..end calc.y modeval..iddcd512523d', 'calc.y', 32
     @q.shift
   end
 
-..end calc.y modeval..iddcd512523d
+..end calc.y modeval..ideb5736dc8f
 
 ##### racc 1.4.5 generates ###
 
 racc_reduce_table = [
  0, 0, :racc_error,
- 1, 14, :_reduce_none,
- 0, 14, :_reduce_2,
- 3, 15, :_reduce_3,
- 3, 15, :_reduce_4,
- 3, 15, :_reduce_5,
- 3, 15, :_reduce_6,
- 3, 15, :_reduce_7,
- 3, 15, :_reduce_8,
- 2, 15, :_reduce_9,
- 3, 15, :_reduce_10,
  1, 15, :_reduce_none,
- 1, 15, :_reduce_12 ]
+ 0, 15, :_reduce_2,
+ 3, 16, :_reduce_3,
+ 3, 16, :_reduce_4,
+ 3, 16, :_reduce_5,
+ 3, 16, :_reduce_6,
+ 3, 16, :_reduce_7,
+ 3, 16, :_reduce_8,
+ 3, 16, :_reduce_9,
+ 2, 16, :_reduce_10,
+ 3, 16, :_reduce_11,
+ 1, 16, :_reduce_12,
+ 1, 16, :_reduce_13 ]
 
-racc_reduce_n = 13
+racc_reduce_n = 14
 
-racc_shift_n = 24
+racc_shift_n = 26
 
 racc_action_table = [
-     9,    10,    11,    12,    13,     7,     5,    23,     6,     8,
-     1,     2,     5,    14,     6,    17,     1,     2,     5,   nil,
-     6,   nil,     1,     2,     5,   nil,     6,   nil,     1,     2,
-     5,   nil,     6,   nil,     1,     2,     5,   nil,     6,   nil,
-     1,     2,     5,   nil,     6,   nil,     1,     2,     5,   nil,
-     6,   nil,     1,     2,     9,    10,    11,    12,    13,     9,
-    10,    11,    12,    13,     9,    10,    11,     9,    10,    11 ]
+     9,    10,    11,    12,    13,    14,     5,     7,    25,     6,
+     5,     1,     2,     6,     5,     1,     2,     6,     5,     1,
+     2,     6,     5,     1,     2,     6,     5,     1,     2,     6,
+     5,     1,     2,     6,     5,     1,     2,     6,     5,     1,
+     2,     6,     8,     1,     2,     9,    10,    11,    12,    13,
+   -14,     9,    10,    11,    12,    13,    14,     9,    10,    11,
+    12,    13,    14,     9,    10,    11,     9,    10,    11,    15,
+    18 ]
 
 racc_action_check = [
-    15,    15,    15,    15,    15,     2,    11,    15,    11,     3,
-    11,    11,    13,     5,    13,     8,    13,    13,    12,   nil,
-    12,   nil,    12,    12,     0,   nil,     0,   nil,     0,     0,
-     6,   nil,     6,   nil,     6,     6,     7,   nil,     7,   nil,
-     7,     7,    10,   nil,    10,   nil,    10,    10,     9,   nil,
-     9,   nil,     9,     9,    16,    16,    16,    16,    16,     4,
-     4,     4,     4,     4,    21,    21,    21,    22,    22,    22 ]
+    16,    16,    16,    16,    16,    16,    12,     2,    16,    12,
+    14,    12,    12,    14,    13,    14,    14,    13,     0,    13,
+    13,     0,     6,     0,     0,     6,     7,     6,     6,     7,
+    11,     7,     7,    11,     9,    11,    11,     9,    10,     9,
+     9,    10,     3,    10,    10,    24,    24,    24,    24,    24,
+    24,    17,    17,    17,    17,    17,    17,     4,     4,     4,
+     4,     4,     4,    22,    22,    22,    23,    23,    23,     5,
+     8 ]
 
 racc_action_pointer = [
-    17,   nil,    -3,     9,    56,     2,    23,    29,    15,    41,
-    35,    -1,    11,     5,   nil,    -3,    51,   nil,   nil,   nil,
-   nil,    61,    64,   nil ]
+    11,   nil,    -2,    42,    54,    57,    15,    19,    70,    27,
+    31,    23,    -1,     7,     3,   nil,    -3,    48,   nil,   nil,
+   nil,   nil,    60,    63,    42,   nil ]
 
 racc_action_default = [
-    -2,   -11,   -12,   -13,    -1,   -13,   -13,   -13,   -13,   -13,
-   -13,   -13,   -13,   -13,    -9,   -13,   -10,    24,    -5,    -6,
-    -7,    -3,    -4,    -8 ]
+    -2,   -12,   -13,   -14,    -1,   -14,   -14,   -14,   -14,   -14,
+   -14,   -14,   -14,   -14,   -14,   -10,   -14,   -11,    26,    -5,
+    -6,    -7,    -3,    -4,    -8,    -9 ]
 
 racc_goto_table = [
-     4,     3,   nil,   nil,   nil,   nil,    15,    16,   nil,    18,
-    19,    20,    21,    22 ]
+     4,     3,   nil,   nil,   nil,   nil,    16,    17,   nil,    19,
+    20,    21,    22,    23,    24 ]
 
 racc_goto_check = [
      2,     1,   nil,   nil,   nil,   nil,     2,     2,   nil,     2,
-     2,     2,     2,     2 ]
+     2,     2,     2,     2,     2 ]
 
 racc_goto_pointer = [
    nil,     1,     0 ]
@@ -114,15 +248,16 @@ racc_token_table = {
  "%" => 5,
  "+" => 6,
  "-" => 7,
- "=" => 8,
- "(" => 9,
- ")" => 10,
- :NUMBER => 11,
- :VAR => 12 }
+ :IS => 8,
+ "=" => 9,
+ "(" => 10,
+ ")" => 11,
+ :NUMBER => 12,
+ :VAR => 13 }
 
 racc_use_result_var = true
 
-racc_nt_base = 13
+racc_nt_base = 14
 
 Racc_arg = [
  racc_action_table,
@@ -149,6 +284,7 @@ Racc_token_to_s_table = [
 '"%"',
 '"+"',
 '"-"',
+'IS',
 '"="',
 '"("',
 '")"',
@@ -166,74 +302,86 @@ Racc_debug_parser = false
 
  # reduce 1 omitted
 
-module_eval <<'.,.,', 'calc.y', 14
+module_eval <<'.,.,', 'calc.y', 15
   def _reduce_2( val, _values, result )
  result = 0
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'calc.y', 16
-  def _reduce_3( val, _values, result )
- result += val[2]
-   result
-  end
-.,.,
-
 module_eval <<'.,.,', 'calc.y', 17
-  def _reduce_4( val, _values, result )
- result -= val[2]
+  def _reduce_3( val, _values, result )
+ result = AddNode.new(val[0],val[2])
    result
   end
 .,.,
 
 module_eval <<'.,.,', 'calc.y', 18
-  def _reduce_5( val, _values, result )
- result *= val[2]
+  def _reduce_4( val, _values, result )
+ result = MinusNode.new(val[0],val[2])
    result
   end
 .,.,
 
 module_eval <<'.,.,', 'calc.y', 19
-  def _reduce_6( val, _values, result )
- result /= val[2]
+  def _reduce_5( val, _values, result )
+ result = MultipleNode.new(val[0],val[2])
    result
   end
 .,.,
 
 module_eval <<'.,.,', 'calc.y', 20
-  def _reduce_7( val, _values, result )
- result %= val[2]
+  def _reduce_6( val, _values, result )
+ result = DevNode.new(val[0],val[2])
    result
   end
 .,.,
 
 module_eval <<'.,.,', 'calc.y', 21
-  def _reduce_8( val, _values, result )
- result = val[1]
+  def _reduce_7( val, _values, result )
+ result = ModNode.new(val[0],val[2])
    result
   end
 .,.,
 
 module_eval <<'.,.,', 'calc.y', 22
-  def _reduce_9( val, _values, result )
- result = -val[1]
+  def _reduce_8( val, _values, result )
+ result = IsNode.new(val[0],val[2])
    result
   end
 .,.,
 
 module_eval <<'.,.,', 'calc.y', 23
-  def _reduce_10( val, _values, result )
- result = @var[val[0]] = val[2]
+  def _reduce_9( val, _values, result )
+ result = val[1]
    result
   end
 .,.,
 
- # reduce 11 omitted
+module_eval <<'.,.,', 'calc.y', 24
+  def _reduce_10( val, _values, result )
+ result = UMinusNode.new(val[1])
+   result
+  end
+.,.,
 
 module_eval <<'.,.,', 'calc.y', 25
+  def _reduce_11( val, _values, result )
+ result = EqualNode.new(val[0],val[2])
+   result
+  end
+.,.,
+
+module_eval <<'.,.,', 'calc.y', 26
   def _reduce_12( val, _values, result )
- result=@var[val[0]]
+result = NumberNode.new(val[0])
+   result
+  end
+.,.,
+
+module_eval <<'.,.,', 'calc.y', 27
+  def _reduce_13( val, _values, result )
+ result = VarNode.new(val[0])
    result
   end
 .,.,
@@ -249,13 +397,15 @@ parser = Calcp.new
 puts
 puts 'type "Q" to quit.'
 puts
+var = {}
 while true
   puts
   print '? '
   str = gets.chop!
   break if /q/i =~ str
   begin
-    puts "= #{parser.parse(str)}"
+    parsed = parser.parse(str)
+    puts parsed.eval(var)
   rescue ParseError
     puts $!
   end
