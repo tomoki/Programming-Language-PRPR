@@ -6,7 +6,7 @@ els = "else"
 # indent is 4space
 
 def main():
-    f = open("test2.bas")
+    f = open("fizzbazz.bas")
     string = f.read()
     print gen_output(string)
 
