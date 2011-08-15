@@ -1,24 +1,25 @@
-# $Id: calc.y,v 1.4 2005/11/20 13:29:32 aamine Exp $
-#
-# Very simple calculater.
+# Tomoki Imai
 
-class Calcp
-  expect 15
+class Prprp
   prechigh
     nonassoc UMINUS
     left '*' '/' '%'
     left '+' '-'
     nonassoc IS
     nonassoc ISNOT
-    right '='
+    nonassoc '>'
+    nonassoc '<'
+
+    right "="
     nonassoc PRINT
     left ';'
     nonassoc IF
-  preclow
 
-rule
+  preclow
+rule 
+
   target: exp
-        | /* none */ { result = NumberNode.new(0) }
+        | /* none */ { result = NumberNode.new(0)}
 
   exp: exp '+' exp { result = AddNode.new(val[0],val[2]) }
      | exp '-' exp { result = MinusNode.new(val[0],val[2]) }
@@ -26,6 +27,8 @@ rule
      | exp '/' exp { result = DevNode.new(val[0],val[2]) }
      | exp '%' exp { result = ModNode.new(val[0],val[2]) }
      | exp IS exp { result = IsNode.new(val[0],val[2]) }
+     | exp '<' exp { result = BiggerNode.new(val[2],val[0]) }
+     | exp '>' exp { result = BiggerNode.new(val[0],val[2]) }
      | exp ISNOT exp { result = IsNotNode.new(val[0],val[2])}
      | PRINT exp { result = PrintNode.new(val[1])}
      | IF exp THEN exp { result = IfNode.new(val[1],val[3])}
@@ -45,9 +48,7 @@ rule
 
 end
 
-
 ---- header
-# $Id: calc.y,v 1.4 2005/11/20 13:29:32 aamine Exp $
 
 class VarNode
   def initialize(name)
@@ -186,6 +187,17 @@ class IsNode
   end
 end
 
+
+class BiggerNode
+  def initialize(left,right)
+    @left = left
+    @right = right
+  end
+  def eval(var_table)
+    return BoolNode.new(@left.eval(var_table) > @right.eval(var_node))
+  end
+end
+
 class IsNotNode
   def initialize(left,right)
     @left = left
@@ -202,11 +214,16 @@ class IfNode
     @exp = exp
   end
   def eval(var_table)
-    if @boolexp.eval(var_table)
-      return @exp.eval(var_table)
+      b =  @boolexp.eval(var_table)
+      puts(b)
+      print(b.class)
+      if b.class == true.class
+        return @exp.eval(var_table)
+      else
+        raise ParseError
+      end
     end
   end
-end
 
 class ForNode
   def initialize(initexp,boolexp,doexp)
@@ -229,10 +246,13 @@ class IfElseNode
     @falseexp = falseexp
   end
   def eval(var_table)
-    if @boolexp.eval(var_table)
+    b = @boolexp.eval(var_table)
+    if b.class == true.class
       return @trueexp.eval(var_table)
-    else
+    elsif b.class == false.class
       return @falseexp.eval(var_table)
+    else
+      raise ParseError
     end
   end
 end
@@ -310,17 +330,17 @@ end
 ---- footer
 
 if ARGV.length == 0
-    parser = Calcp.new
+    parser = Prprp.new
     var = {}
     str = ARGF.read
   begin
     parsed = parser.parse(str)
     parsed.eval(var)
-  rescue ParseError
+  rescue ParseError => e
     puts e
   end
 else
-    parser = Calcp.new
+    parser = Prprp.new
     var = {}
     f = open(ARGV[0])
     begin
