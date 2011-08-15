@@ -1,5 +1,5 @@
 for i=0 to i is 16 do:
-    if i % 15 then:
+    if i % 15 is 0 then:
         print "FizzBuzz"
     else:
         if i % 5 is 0 then:
