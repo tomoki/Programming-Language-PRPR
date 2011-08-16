@@ -1,0 +1,8 @@
+Copyright Tomoki Imai.
+The Licence is MIT Licence.
+
+Programming PRPR requires following software.
+
+Ruby.
+Racc.(if you build own PRPR)
+Python.
