@@ -219,7 +219,7 @@ class IfNode
       print(b.class)
       if b.class == true.class
         return @exp.eval(var_table)
-      else
+      elsif b.class != false.class
         raise ParseError
       end
     end
