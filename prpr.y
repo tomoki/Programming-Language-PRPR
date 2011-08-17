@@ -3,7 +3,8 @@
 class Prprp
   prechigh
     nonassoc UMINUS
-    left '*' '/' '%'
+    left '*' '/' MOD
+    left '^'
     left '+' '-'
     nonassoc IS
     nonassoc ISNOT
@@ -25,7 +26,8 @@ rule
      | exp '-' exp { result = MinusNode.new(val[0],val[2]) }
      | exp '*' exp { result = MultipleNode.new(val[0],val[2]) }
      | exp '/' exp { result = DevNode.new(val[0],val[2]) }
-     | exp '%' exp { result = ModNode.new(val[0],val[2]) }
+     | exp MOD exp { result = ModNode.new(val[0],val[2]) }
+     | exp '^' exp { result = PowerNode.new(val[0],val[2]) }
      | exp IS exp { result = IsNode.new(val[0],val[2]) }
      | exp '<' exp { result = BiggerNode.new(val[2],val[0]) }
      | exp '>' exp { result = BiggerNode.new(val[0],val[2]) }
@@ -138,7 +140,17 @@ class ModNode
     return "|Mod node|\n|#{"-"*(@right.to_s.length+2)}|\n#{@left}  #{@right}"
   end
   def eval(var_table)
-    @left.eval(var_table)% @right.eval(var_table)
+    return @left.eval(var_table)% @right.eval(var_table)
+  end
+end
+
+class PowerNode
+  def initialize(left,right)
+    @left = left
+    @right = right
+  end
+  def eval(var_table)
+    return @left.eval(var_table) **  @right.eval(var_table)
   end
 end
 
@@ -194,7 +206,7 @@ class BiggerNode
     @right = right
   end
   def eval(var_table)
-    return BoolNode.new(@left.eval(var_table) > @right.eval(var_node))
+    return BoolNode.new(@left.eval(var_table) > @right.eval(var_table))
   end
 end
 
@@ -309,6 +321,8 @@ end
         @q.push [:TO,nil]
       when /\Ado/
         @q.push [:DO,nil]
+      when /\Amod/
+        @q.push [:MOD,nil]
       when /\A"(.*?)"/
         @q.push [:STRING,$1]
       when /\A\w+/
