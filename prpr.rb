@@ -12,8 +12,8 @@ class VarNode
   def initialize(name)
     @name = name
   end
-  def eval(var_table)
-    return var_table[@name]
+  def eval(env)
+    return env.var_table[@name]
   end
 end
 
@@ -21,7 +21,7 @@ class NumberNode
   def initialize(value)
     @value = value
   end
-  def eval(var_table)
+  def eval(env)
     return @value
   end
 end
@@ -30,7 +30,7 @@ class StringNode
   def initialize(value)
     @value = value
   end
-  def eval(var_table)
+  def eval(env)
     return @value
   end
 end
@@ -40,11 +40,8 @@ class AddNode
     @left = left
     @right = right
   end
-  def to_s()
-    return "|Add node|\n| #{@left}  #{@right}"
-  end
-  def eval(var_table)
-    return @left.eval(var_table) + @right.eval(var_table)
+  def eval(env)
+    return @left.eval(env) + @right.eval(env)
   end
 end
 
@@ -53,11 +50,8 @@ class MinusNode
     @left = left
     @right = right
   end
-  def to_s()
-    return "|Minus node|\n|#{"-"*(@right.to_s.length+2)}|\n#{@left}  #{@right}"
-  end
-  def eval(var_table)
-    return @left.eval(var_table) - @right.eval(var_table)
+  def eval(env)
+    return @left.eval(env) - @right.eval(env)
   end
 end
 
@@ -66,11 +60,8 @@ class MultipleNode
     @left = left
     @right = right
   end
-  def to_s()
-    return "|Multiple node|\n|#{"-"*(@right.to_s.length+2)}|\n#{@left}  #{@right}"
-  end
-  def eval(var_table)
-    return @left.eval(var_table) * @right.eval(var_table)
+  def eval(env)
+    return @left.eval(env) * @right.eval(env)
   end
 end
 
@@ -79,11 +70,8 @@ class DevNode
     @left = left
     @right = right
   end
-  def to_s()
-    return "|Dev node|\n|#{"-"*(@right.to_s.length+2)}|\n#{@left}  #{@right}"
-  end
-  def eval(var_table)
-    return @left.eval(var_table) / @right.eval(var_table)
+  def eval(env)
+    return @left.eval(env) / @right.eval(env)
   end
 end
 
@@ -92,11 +80,8 @@ class ModNode
     @left = left
     @right = right
   end
-  def to_s()
-    return "|Mod node|\n|#{"-"*(@right.to_s.length+2)}|\n#{@left}  #{@right}"
-  end
-  def eval(var_table)
-    return @left.eval(var_table)% @right.eval(var_table)
+  def eval(env)
+    return @left.eval(env)% @right.eval(env)
   end
 end
 
@@ -105,8 +90,8 @@ class PowerNode
     @left = left
     @right = right
   end
-  def eval(var_table)
-    return @left.eval(var_table) **  @right.eval(var_table)
+  def eval(env)
+    return @left.eval(env) **  @right.eval(env)
   end
 end
 
@@ -114,11 +99,8 @@ class UMinusNode
   def initialize(num)
     @num = num
   end
-  def to_s()
-    return "|UMinus node|\n|#{@num}"
-  end
-  def eval(var_table)
-    return -1 * @num.eval(var_table)
+  def eval(env)
+    return -1 * @num.eval(env)
   end
 end
 
@@ -127,11 +109,8 @@ class EqualNode
     @left = left
     @right = right
   end
-  def to_s()
-    return "Mod node\n|#{"-"*(@right.to_s.length+2)}|\n#{@left}  #{@right}"
-  end
-  def eval(var_table)
-    var_table[@left] = @right.eval(var_table)
+  def eval(env)
+    env.var_table[@left] = @right.eval(env)
   end
 end
 
@@ -139,7 +118,7 @@ class BoolNode
   def initialize(bool)
     @bool = bool
   end
-  def eval(var_table)
+  def eval(env)
     return @bool
   end
 end
@@ -150,8 +129,8 @@ class IsNode
     @left = left
     @right = right
   end
-  def eval(var_table)
-    return BoolNode.new(@left.eval(var_table)==@right.eval(var_table)).eval(var_table)
+  def eval(env)
+    return BoolNode.new(@left.eval(env)==@right.eval(env)).eval(env)
   end
 end
 
@@ -161,8 +140,8 @@ class BiggerNode
     @left = left
     @right = right
   end
-  def eval(var_table)
-    return BoolNode.new(@left.eval(var_table) > @right.eval(var_table))
+  def eval(env)
+    return BoolNode.new(@left.eval(env) > @right.eval(env))
   end
 end
 
@@ -171,8 +150,8 @@ class IsNotNode
     @left = left
     @right = right
   end
-  def eval(var_table)
-    return BoolNode.new(@left.eval(var_table)!=@right.eval(var_table)).eval(var_table)
+  def eval(env)
+    return BoolNode.new(@left.eval(env)!=@right.eval(env)).eval(env)
   end
 end
 
@@ -181,12 +160,12 @@ class IfNode
     @boolexp = boolexp
     @exp = exp
   end
-  def eval(var_table)
-      b =  @boolexp.eval(var_table)
+  def eval(env)
+      b =  @boolexp.eval(env)
       puts(b)
       print(b.class)
       if b.class == true.class
-        return @exp.eval(var_table)
+        return @exp.eval(env)
       elsif b.class != false.class
         raise ParseError
       end
@@ -199,13 +178,14 @@ class ForNode
     @boolexp = boolexp
     @doexp = doexp
   end
-  def eval(var_table)
-    @initexp.eval(var_table)
-    while(not @boolexp.eval(var_table))
-      @doexp.eval(var_table)
+  def eval(env)
+    @initexp.eval(env)
+    while(not @boolexp.eval(env))
+      @doexp.eval(env)
     end
   end
 end
+
 
 class IfElseNode
   def initialize(boolexp,trueexp,falseexp)
@@ -213,12 +193,12 @@ class IfElseNode
     @trueexp = trueexp
     @falseexp = falseexp
   end
-  def eval(var_table)
-    b = @boolexp.eval(var_table)
+  def eval(env)
+    b = @boolexp.eval(env)
     if b.class == true.class
-      return @trueexp.eval(var_table)
+      return @trueexp.eval(env)
     elsif b.class == false.class
-      return @falseexp.eval(var_table)
+      return @falseexp.eval(env)
     else
       raise ParseError
     end
@@ -229,10 +209,10 @@ class BlockNode
   def initialize(nodelist)
     @nodelist = nodelist
   end
-  def eval(var_table)
+  def eval(env)
     answer = 0
     @nodelist.each do |node|
-      answer = node.eval(var_table)
+      answer = node.eval(env)
     end
     return answer
   end
@@ -242,14 +222,14 @@ class PrintNode
   def initialize(value)
     @value = value
   end
-  def eval(var_table)
-    puts @value.eval(var_table)
+  def eval(env)
+    puts @value.eval(env)
   end
 end
 
 class Prprp < Racc::Parser
 
-module_eval <<'..end prpr.y modeval..idf801853c7b', 'prpr.y', 294
+module_eval <<'..end prpr.y modeval..iddbe0c3cc77', 'prpr.y', 274
 
   def initialize()
     @nodes = []
@@ -300,7 +280,7 @@ module_eval <<'..end prpr.y modeval..idf801853c7b', 'prpr.y', 294
     @q.shift
   end
 
-..end prpr.y modeval..idf801853c7b
+..end prpr.y modeval..iddbe0c3cc77
 
 ##### racc 1.4.5 generates ###
 
@@ -756,25 +736,37 @@ result=val[0] << val[2]
 
 end   # class Prprp
 
+class Env
+  def initialize()
+    @var_table = {}
+    @for_table = {}
+  end
+  def var_table
+    return @var_table
+  end
+  def for_table
+    return for_table
+  end
+end
 
 if ARGV.length == 0
     parser = Prprp.new
-    var = {}
+    environment = Env.new()
     str = ARGF.read
   begin
     parsed = parser.parse(str)
-    parsed.eval(var)
+    parsed.eval(environment)
   rescue ParseError => e
     puts e
   end
 else
     parser = Prprp.new
-    var = {}
+    environment = Env.new()
     f = open(ARGV[0])
     begin
       str = f.read
       parsed = parser.parse(str)
-      parsed.eval(var)
+      parsed.eval(environment)
     rescue ParseError => e
       puts e
     end

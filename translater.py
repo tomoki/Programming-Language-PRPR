@@ -24,10 +24,13 @@ def gen_output(string):
     for line in clean_lines:
         indent_levels.append(return_indent_depth(line))
 
-    clean_lines.append("")
-    indent_levels.append(0)
+    clean_lines = ["main=0"] + clean_lines
 
-    offsideline = [-1]
+    clean_lines.append("")
+
+    indent_levels.append(0)
+    indent_levels = [0] + indent_levels
+    offsideline = [0]
 
     for i in range(len(clean_lines)-1):
         if offsideline[-1] > indent_levels[i]:
@@ -36,7 +39,8 @@ def gen_output(string):
 
         if offsideline[-1] == indent_levels[i]:
             if not clean_lines[i].strip()[0:len(els)] == els:
-                output = output + ";"
+                if not i == 0:
+                    output = output + ";"
 
         if offsideline[-1] < indent_levels[i]:
             offsideline.append(indent_levels[i])
@@ -52,7 +56,7 @@ def gen_output(string):
             for j in range(indent_levels[i] - indent_levels[i+1]):
                 output = output + " " * 4*(indent_levels[i]-j-1) + "}" + "\n"
 
-    return output
+    return "{" +  output + "}"
 
 
 def return_indent_depth(line):
