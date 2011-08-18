@@ -10,37 +10,55 @@ Python.
 How to use.
 move progprpr dir.
 
+prpr need indents like python.
+
 $ ./prpr <file>.
 Like ruby,you can use stdin.
 
 syntax.
 you can use following mathmatic syntax.
 
+-------------------------------------------------------------------------------
 a + b.
  -> return a plus b.
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 a - b.
  -> return a minus b.
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 a * b.
  -> return a multiple b
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 a / b.
  -> return a divide b.
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
+-------------------------------------------------------------------------------
 a mod b.
  -> return remainder of "a divide b".
+-------------------------------------------------------------------------------
 -calc remainder.
 -ex. 5 mod 4 is 1.
      4.5 mod 3 is 1.5.
 -in some other programming language,
  mod is %.
 
+-------------------------------------------------------------------------------
 a ^ b.
+ -> return a power b.
+-------------------------------------------------------------------------------
 -cal power.
 -ex. 5^3 means 5*5*5.
 -in some other programming language,
  ^ is **.
 
+-------------------------------------------------------------------------------
 a is b.
  -> return true if a=b.false if a not = b.
+-------------------------------------------------------------------------------
 -ex,5is5 return true.
  4 is 3 return false.
 -in some other programming language,
@@ -51,17 +69,53 @@ In prpr,there is no difference intger and float.
 It means,there is only float.
 Prpr also have strings.
 
+-------------------------------------------------------------------------------
 "String".
--> return "String".
+ -> return "String".
+-------------------------------------------------------------------------------
 -In prpr,no high function for strings.
 -Because,prpr is for mathmatics.
 -but,I'm planning to add some functions.
 
 
+-------------------------------------------------------------------------------
+print a.
+ ->output value a to stdout.
+-------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+a = b.
+ make a b.
+-------------------------------------------------------------------------------
+
 In prpr,there is "for" and "if".
-There is no document now.
-Because prpr is now on work.
-Sorry.
+
+for "initialize expression" to "condition expression" do:
+<-->expressions
+
+At first,"init exp" will be evaled.
+while "condition expression" returned false,
+eval expressions again and again.
+
+if syntax.
+-------------------------------------------------------------------------------
+if "condition exp" then:
+<-->expressions
+-------------------------------------------------------------------------------
+
+If "condition exp" returned true,expressions will be evaled.
+if syntax can have else.
+
+-------------------------------------------------------------------------------
+if "condition exp" then:
+<-->true expressions
+else:
+<-->false expressions
+-------------------------------------------------------------------------------
+
+If "condition exp" returned true,true expressions will be evaled.
+if "condition exp" returned false,false expressions will be evaled.
+
 
 But you can see fizzbuzz.bas.
 There are some sample for "for" and "if".
