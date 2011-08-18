@@ -36,6 +36,8 @@ rule
      | IF exp THEN exp { result = IfNode.new(val[1],val[3])}
      | IF exp THEN exp ELSE exp { result = IfElseNode.new(val[1],val[3],val[5])}
      | FOR exp TO exp DO exp { result = ForNode.new(val[1],val[3],val[5])}
+     | LABEL STRING TO exp { result=LabelNode.new(val[1],val[3]) }
+     | GOTO STRING { result = GotoNode.new(val[1]) }
      | '(' exp ')' { result = val[1] }
      | '{' explist '}' {result = BlockNode.new(val[1])}
      | '-' NUMBER  =UMINUS { result = UMinusNode.new(val[1]) }
@@ -167,6 +169,28 @@ class BoolNode
   end
 end
 
+class LabelNode
+  def initialize(label,exp)
+    @label = label
+    @exp = exp
+  end
+  def eval(env)
+    env.label_table[@label] = @exp
+  end
+  def gotoed(env)
+    @exp.eval(env)
+  end
+end
+
+class GotoNode
+  def initialize(label)
+    @label = label
+  end
+  def eval(env)
+    return env.label_table[@label].eval(env)
+  end
+end
+
 
 class IsNode
   def initialize(left,right)
@@ -229,6 +253,7 @@ class ForNode
     end
   end
 end
+
 
 
 class IfElseNode
@@ -303,6 +328,10 @@ end
         @q.push [:DO,nil]
       when /\Amod/
         @q.push [:MOD,nil]
+      when /\Agoto/
+        @q.push [:GOTO,nil]
+      when /\Alabel/
+        @q.push [:LABEL,nil]
       when /\A"(.*?)"/
         @q.push [:STRING,$1]
       when /\A\w+/
@@ -325,13 +354,13 @@ end
 class Env
   def initialize()
     @var_table = {}
-    @for_table = {}
+    @label_table = {}
   end
   def var_table
     return @var_table
   end
-  def for_table
-    return for_table
+  def label_table
+    return @label_table
   end
 end
 
