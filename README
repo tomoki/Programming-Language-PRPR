@@ -6,3 +6,62 @@ Programming PRPR requires following software.
 Ruby.
 Racc.(if you build own PRPR)
 Python.
+
+How to use.
+move progprpr dir.
+
+$ ./prpr <file>.
+Like ruby,you can use stdin.
+
+syntax.
+you can use following mathmatic syntax.
+
+a + b.
+ -> return a plus b.
+a - b.
+ -> return a minus b.
+a * b.
+ -> return a multiple b
+a / b.
+ -> return a divide b.
+
+a mod b.
+ -> return remainder of "a divide b".
+-calc remainder.
+-ex. 5 mod 4 is 1.
+     4.5 mod 3 is 1.5.
+-in some other programming language,
+ mod is %.
+
+a ^ b.
+-cal power.
+-ex. 5^3 means 5*5*5.
+-in some other programming language,
+ ^ is **.
+
+a is b.
+ -> return true if a=b.false if a not = b.
+-ex,5is5 return true.
+ 4 is 3 return false.
+-in some other programming language,
+ "is" is ==.
+
+
+In prpr,there is no difference intger and float.
+It means,there is only float.
+Prpr also have strings.
+
+"String".
+-> return "String".
+-In prpr,no high function for strings.
+-Because,prpr is for mathmatics.
+-but,I'm planning to add some functions.
+
+
+In prpr,there is "for" and "if".
+There is no document now.
+Because prpr is now on work.
+Sorry.
+
+But you can see fizzbuzz.bas.
+There are some sample for "for" and "if".
