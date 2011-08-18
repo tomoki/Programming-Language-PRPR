@@ -117,5 +117,19 @@ If "condition exp" returned true,true expressions will be evaled.
 if "condition exp" returned false,false expressions will be evaled.
 
 
-But you can see fizzbuzz.bas.
-There are some sample for "for" and "if".
+Label System.
+label system is the way to insert function.
+
+-------------------------------------------------------------------------------
+label "String" to:
+<-->expressions
+-------------------------------------------------------------------------------
+and
+-------------------------------------------------------------------------------
+goto "String"
+-------------------------------------------------------------------------------
+
+These are pair.
+goto "String" insert expressions.
+
+See test.bas
