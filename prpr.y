@@ -6,11 +6,8 @@ class Prprp
     left '*' '/' MOD
     left '^'
     left '+' '-'
-    nonassoc IS
-    nonassoc ISNOT
-    nonassoc '>'
-    nonassoc '<'
-
+    nonassoc IS ISNOT
+    nonassoc '>' '<'
     right "="
     nonassoc PRINT
     left ';'

@@ -252,7 +252,7 @@ end
 
 class Prprp < Racc::Parser
 
-module_eval <<'..end prpr.y modeval..idfc5954a9f3', 'prpr.y', 299
+module_eval <<'..end prpr.y modeval..id1d3bac2ab7', 'prpr.y', 296
 
   def initialize()
     @nodes = []
@@ -307,7 +307,7 @@ module_eval <<'..end prpr.y modeval..idfc5954a9f3', 'prpr.y', 299
     @q.shift
   end
 
-..end prpr.y modeval..idfc5954a9f3
+..end prpr.y modeval..id1d3bac2ab7
 
 ##### racc 1.4.5 generates ###
 
@@ -378,27 +378,28 @@ racc_action_table = [
      6,     7,     8,     9,    10,    12,   nil,   nil,     1,     3,
      4,     5,   nil,     7,    47,     9,    10,    17,    18,    19,
     20,    21,    22,    23,    24,    15,    16,    48,    17,    18,
-    19,    20,    21,    22,   -29,    58,    17,    18,    19,    20,
-    21,    22,    23,    24,    15,    16,    17,    18,    19,    20,
-    17,    18,    19,    51,    17,    18,    19,    20,    21,    22,
+    19,    20,    17,    18,    19,    58,    17,    18,    19,    20,
+    21,    22,    23,    24,    15,    16,   nil,   nil,   nil,   nil,
+   nil,   nil,   nil,    51,    17,    18,    19,    20,    21,    22,
     23,    24,    15,    16,   nil,   nil,   nil,   nil,   nil,    57,
     17,    18,    19,    20,    21,    22,    23,    24,    15,    16,
    nil,   nil,   nil,   nil,    49,    17,    18,    19,    20,    21,
     22,    23,    24,    15,    16,    17,    18,    19,    20,    21,
     22,    23,    24,    15,    16,    17,    18,    19,    20,    21,
     22,    23,    24,    15,    16,    17,    18,    19,    20,    21,
-    22,    23,    24,    15,    16,    17,    18,    19,    20,    21,
-    22,    23,    24,    15,   -29,    17,    18,    19,    20,    21,
-    22,    23,    24,    15,    16,    17,    18,    19,    20,    21,
-    22,    23,    24,    15,    16,    17,    18,    19,    20,    21,
+    22,    23,    24,   -29,   -29,    17,    18,    19,    20,    21,
+    22,    23,    24,   -29,   -29,    17,    18,    19,    20,    21,
     22,    23,    24,    15,    16,    17,    18,    19,    20,    21,
     22,    23,    24,    15,    16,    17,    18,    19,    20,    21,
-    22,    23,    24,   -29,    17,    18,    19,    20,    21,    22,
-    23,   -29 ]
+    22,    23,    24,    15,    16,    17,    18,    19,    20,    21,
+    22,    23,    24,    15,    16,    17,    18,    19,    20,    21,
+    22,    23,    24,    15,    16,    17,    18,    19,    20,    21,
+    22,   -29,   -29,    17,    18,    19,    20,    21,    22,   -29,
+   -29 ]
 
 racc_action_check = [
     26,    26,    26,    26,    26,    26,    26,    26,    26,    26,
-    49,    42,    42,    42,    42,    13,    49,    10,    49,     4,
+    49,    43,    43,    43,    43,    13,    49,    10,    49,     4,
     11,    49,    57,    26,    49,    49,    49,    49,    57,    49,
     57,    49,    49,    57,    31,     1,    57,    57,    57,    57,
     31,    57,    31,    57,    57,    31,     5,    14,    31,    31,
@@ -427,32 +428,33 @@ racc_action_check = [
     24,    23,    23,    24,    16,   nil,    24,    24,    24,    24,
     16,    24,    16,    24,    24,    16,   nil,   nil,    16,    16,
     16,    16,   nil,    16,    29,    16,    16,    56,    56,    56,
-    56,    56,    56,    56,    56,    56,    56,    29,    44,    44,
-    44,    44,    44,    44,    44,    56,    33,    33,    33,    33,
-    33,    33,    33,    33,    33,    33,    43,    43,    43,    43,
-    41,    41,    41,    33,    55,    55,    55,    55,    55,    55,
+    56,    56,    56,    56,    56,    56,    56,    29,    42,    42,
+    42,    42,    41,    41,    41,    56,    33,    33,    33,    33,
+    33,    33,    33,    33,    33,    33,   nil,   nil,   nil,   nil,
+   nil,   nil,   nil,    33,    55,    55,    55,    55,    55,    55,
     55,    55,    55,    55,   nil,   nil,   nil,   nil,   nil,    55,
     30,    30,    30,    30,    30,    30,    30,    30,    30,    30,
    nil,   nil,   nil,   nil,    30,    28,    28,    28,    28,    28,
     28,    28,    28,    28,    28,    60,    60,    60,    60,    60,
     60,    60,    60,    60,    60,    27,    27,    27,    27,    27,
-    27,    27,    27,    27,    27,    54,    54,    54,    54,    54,
-    54,    54,    54,    54,    54,    37,    37,    37,    37,    37,
-    37,    37,    37,    37,    37,    50,    50,    50,    50,    50,
+    27,    27,    27,    27,    27,    36,    36,    36,    36,    36,
+    36,    36,    36,    36,    36,    37,    37,    37,    37,    37,
+    37,    37,    37,    37,    37,    54,    54,    54,    54,    54,
+    54,    54,    54,    54,    54,    50,    50,    50,    50,    50,
     50,    50,    50,    50,    50,     2,     2,     2,     2,     2,
      2,     2,     2,     2,     2,    59,    59,    59,    59,    59,
     59,    59,    59,    59,    59,    53,    53,    53,    53,    53,
-    53,    53,    53,    53,    53,    36,    36,    36,    36,    36,
-    36,    36,    36,    36,    45,    45,    45,    45,    45,    45,
-    45,    45 ]
+    53,    53,    53,    53,    53,    45,    45,    45,    45,    45,
+    45,    45,    45,    44,    44,    44,    44,    44,    44,    44,
+    44 ]
 
 racc_action_pointer = [
-   158,    12,   422,   nil,    -4,    38,    50,    62,    74,   nil,
+   158,    12,   432,   nil,    -4,    38,    50,    62,    74,   nil,
      4,    -9,   110,    15,    27,   146,   266,   170,   182,   194,
    206,   218,   230,   242,   254,   nil,    -3,   382,   362,   279,
-   347,    26,   nil,   313,    59,    86,   452,   402,   nil,   nil,
-   nil,   327,     8,   323,   305,   461,   nil,   134,   nil,     2,
-   412,    98,   nil,   442,   392,   331,   294,    14,   122,   432,
+   347,    26,   nil,   313,    59,    86,   392,   402,   nil,   nil,
+   nil,   309,   305,     8,   470,   462,   nil,   134,   nil,     2,
+   422,    98,   nil,   452,   412,   331,   294,    14,   122,   442,
    372 ]
 
 racc_action_default = [
@@ -584,189 +586,189 @@ Racc_debug_parser = false
 
  # reduce 1 omitted
 
-module_eval <<'.,.,', 'prpr.y', 22
+module_eval <<'.,.,', 'prpr.y', 19
   def _reduce_2( val, _values, result )
  result = NumberNode.new(0)
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'prpr.y', 24
+module_eval <<'.,.,', 'prpr.y', 21
   def _reduce_3( val, _values, result )
  result = AddNode.new(val[0],val[2])
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'prpr.y', 25
+module_eval <<'.,.,', 'prpr.y', 22
   def _reduce_4( val, _values, result )
  result = MinusNode.new(val[0],val[2])
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'prpr.y', 26
+module_eval <<'.,.,', 'prpr.y', 23
   def _reduce_5( val, _values, result )
  result = MultipleNode.new(val[0],val[2])
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'prpr.y', 27
+module_eval <<'.,.,', 'prpr.y', 24
   def _reduce_6( val, _values, result )
  result = DevNode.new(val[0],val[2])
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'prpr.y', 28
+module_eval <<'.,.,', 'prpr.y', 25
   def _reduce_7( val, _values, result )
  result = ModNode.new(val[0],val[2])
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'prpr.y', 29
+module_eval <<'.,.,', 'prpr.y', 26
   def _reduce_8( val, _values, result )
  result = PowerNode.new(val[0],val[2])
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'prpr.y', 30
+module_eval <<'.,.,', 'prpr.y', 27
   def _reduce_9( val, _values, result )
  result = IsNode.new(val[0],val[2])
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'prpr.y', 31
+module_eval <<'.,.,', 'prpr.y', 28
   def _reduce_10( val, _values, result )
  result = BiggerNode.new(val[2],val[0])
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'prpr.y', 32
+module_eval <<'.,.,', 'prpr.y', 29
   def _reduce_11( val, _values, result )
  result = BiggerNode.new(val[0],val[2])
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'prpr.y', 33
+module_eval <<'.,.,', 'prpr.y', 30
   def _reduce_12( val, _values, result )
  result = IsNotNode.new(val[0],val[2])
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'prpr.y', 34
+module_eval <<'.,.,', 'prpr.y', 31
   def _reduce_13( val, _values, result )
  result = PrintNode.new(val[1])
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'prpr.y', 35
+module_eval <<'.,.,', 'prpr.y', 32
   def _reduce_14( val, _values, result )
  result = IfNode.new(val[1],val[3])
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'prpr.y', 36
+module_eval <<'.,.,', 'prpr.y', 33
   def _reduce_15( val, _values, result )
  result = IfElseNode.new(val[1],val[3],val[5])
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'prpr.y', 37
+module_eval <<'.,.,', 'prpr.y', 34
   def _reduce_16( val, _values, result )
  result = ForNode.new(val[1],val[3],val[5])
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'prpr.y', 38
+module_eval <<'.,.,', 'prpr.y', 35
   def _reduce_17( val, _values, result )
  result=LabelNode.new(val[1],val[3])
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'prpr.y', 39
+module_eval <<'.,.,', 'prpr.y', 36
   def _reduce_18( val, _values, result )
  result = GotoNode.new(val[1])
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'prpr.y', 40
+module_eval <<'.,.,', 'prpr.y', 37
   def _reduce_19( val, _values, result )
  result = val[1]
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'prpr.y', 41
+module_eval <<'.,.,', 'prpr.y', 38
   def _reduce_20( val, _values, result )
 result = BlockNode.new(val[1])
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'prpr.y', 42
+module_eval <<'.,.,', 'prpr.y', 39
   def _reduce_21( val, _values, result )
  result = UMinusNode.new(val[1])
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'prpr.y', 43
+module_eval <<'.,.,', 'prpr.y', 40
   def _reduce_22( val, _values, result )
  result = EqualNode.new(val[0],val[2])
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'prpr.y', 44
+module_eval <<'.,.,', 'prpr.y', 41
   def _reduce_23( val, _values, result )
 result = NumberNode.new(val[0])
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'prpr.y', 45
+module_eval <<'.,.,', 'prpr.y', 42
   def _reduce_24( val, _values, result )
  result = VarNode.new(val[0])
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'prpr.y', 46
+module_eval <<'.,.,', 'prpr.y', 43
   def _reduce_25( val, _values, result )
  result = StringNode.new(val[0])
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'prpr.y', 48
+module_eval <<'.,.,', 'prpr.y', 45
   def _reduce_26( val, _values, result )
 result = []
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'prpr.y', 49
+module_eval <<'.,.,', 'prpr.y', 46
   def _reduce_27( val, _values, result )
 result=[val[0]]
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'prpr.y', 50
+module_eval <<'.,.,', 'prpr.y', 47
   def _reduce_28( val, _values, result )
 result=val[0] << val[2]
    result
